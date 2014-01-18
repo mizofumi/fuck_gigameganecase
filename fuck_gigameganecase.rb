@@ -5,8 +5,24 @@ Plugin.create(:fuck_gigamegane) do
 		mess.each do |mes|
 			p mes.message[:source].to_s
 			if (mes.message[:source].to_s == "ギガネケエス")
-				Service.primary.update(:message => "D #{mes.user} ☝( ◠‿◠ )☝")
+				if (UserConfig[:fuck_gigameganecase] == "")
+					str ||= "☝( ◠‿◠ )☝"
+				else
+					str ||= UserConfig[:fuck_gigameganecase]
+				end
+				Service.primary.update(:message => "D #{mes.user} #{str}")
 			end
 		end
 	end
+
+	settings "Fuckギガネケエス" do
+        settings "DM" do
+        	input "内容", :fuck_gigameganecase
+        end
+
+        closeup summary = ::Gtk::Label.new(
+            "\n\n" +
+            "攻めろ\n"
+        )
+    end
 end
