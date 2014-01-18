@@ -1,22 +1,28 @@
 # coding:utf-8
 
 Plugin.create(:fuck_gigamegane) do
-	on_appear do |mess|
-		mess.each do |mes|
-			p mes.message[:source].to_s
-			if (mes.message[:source].to_s == "ギガネケエス")
-				if (UserConfig[:fuck_gigameganecase] == "")
-					str ||= "☝( ◠‿◠ )☝"
-				else
-					str ||= UserConfig[:fuck_gigameganecase]
+	
+	UserConfig[:fuck_gigameganecase_active] ||= false
+
+	if UserConfig[:fuck_gigameganecase_active]
+		on_appear do |mess|
+			mess.each do |mes|
+				p mes.message[:source].to_s
+				if (mes.message[:source].to_s == "ギガネケエス")
+					if (UserConfig[:fuck_gigameganecase] == "")
+						str ||= "☝( ◠‿◠ )☝"
+					else
+						str ||= UserConfig[:fuck_gigameganecase]
+					end
+					Service.primary.update(:message => "D #{mes.user} #{str}")
 				end
-				Service.primary.update(:message => "D #{mes.user} #{str}")
 			end
 		end
 	end
 
 	settings "Fuckギガネケエス" do
-        settings "DM" do
+        settings "せってー" do
+        	boolean "有効", :fuck_gigameganecase_active
         	input "内容", :fuck_gigameganecase
         end
 
